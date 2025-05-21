@@ -26,6 +26,30 @@ print("Total (with modifiers): " .. final)
 print("\nPress Enter to close, or type 'data' for additional data about your rolls.")
 local closeDec = io.read()
 
-if closeDec == string.lower("data") then
-  print("Average roll: " .. total / num)
+if closeDec then
+    if string.lower(closeDec) == "data" then
+        local rollCounts = {}
+        local mostRolled = 0
+        local leastRolled = 0 
+        local highestCount = 0
+        local leastCount = math.huge -- Make sure to count the first low
+
+        for _, v in ipairs(rolls) do
+            rollCounts[v] = (rollCounts[v] or 0) + 1
+
+            if rollCounts[v] > highestCount then
+                highestCount = rollCounts[v]
+                mostRolled = v
+            end
+        
+            if rollCounts[v] < tonumber(leastCount) then
+                leastCount = rollCounts[v]
+                leastRolled = v
+            end
+        end
+
+        print("Average roll: " .. string.format("%.2f", total / num))
+        print("Most rolled number: " .. mostRolled .. " (" .. highestCount .. " times)")
+        print("Least rolled number: " .. leastRolled .. " (" .. leastCount .. " times)")
+    end    
 end
